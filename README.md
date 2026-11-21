@@ -1,5 +1,9 @@
 # Smart Service Desk Management System
 
+Name: <YOUR NAME>
+
+Participant ID: <YOUR ID>
+
 ## Problem Statement
 Employees need a simple, reliable way to create IT support requests and preserve their status. The application provides a menu-based Python CLI for creating, viewing, searching, resolving, and tracking requests.
 
@@ -70,13 +74,16 @@ smart-service-desk/
 └── README.md
 ```
 
-## OOP and SOLID
-- Encapsulation: private request fields and properties
-- Constructor and serialization: `ServiceRequest` supports dictionaries
-- Domain behavior: `resolve()` belongs to `ServiceRequest`
-- Separation of responsibilities: domain, application, infrastructure, and presentation
-- Dependency inversion: `RequestService` receives an abstract repository
-- Interface-based design: `AbstractRepository` uses `ABC` and `abstractmethod`
+## Concepts Used
+
+| Concept | Where it is used |
+|---|---|
+| OOP | `ServiceRequest` uses private attributes, properties, a constructor, serialization methods, and `resolve()` domain behavior. |
+| Exception handling | Custom exceptions such as `DuplicateRequestError`, `RequestNotFoundError`, `InvalidPriorityError`, and `AuthorizationError` provide controlled CLI errors. |
+| File handling | `FileRepository` reads and writes `data/requests.json` and handles missing, empty, BOM-prefixed, and corrupted JSON safely. |
+| SOLID | SRP separates domain, application, infrastructure, and presentation jobs; DIP makes `RequestService` depend on `AbstractRepository` rather than JSON implementation. |
+| DDD | Domain rules live in `ServiceRequest`, use cases in `RequestService`, JSON storage in infrastructure, and input/output in presentation. |
+| Git | Development is maintained on `development`, meaningful commits record each layer, and tested work is merged into `main`. |
 
 ## Authentication
 Demo accounts:
@@ -92,7 +99,7 @@ These are deliberately non-personal demonstration credentials. Passwords are nev
 Python 3 is required. No third-party package is required.
 
 ```powershell
-cd "C:\Users\prane\OneDrive\Documents\smart-service-desk"
+cd into the project folder
 python main.py
 ```
 
@@ -131,16 +138,10 @@ SR101 | Rahul | Laptop is not starting | HIGH | OPEN
 `data/requests.json` is loaded at repository use time and written after creation or resolution. Missing and empty files are treated as empty repositories. Corrupted JSON produces `RepositoryError`. Custom exceptions provide clear duplicate, missing, priority, authentication, authorization, and resolved-state messages.
 
 ## Git Branch and Merge Strategy
-Use `main` as the stable submission branch and `development` for implementation work. Test development before merging:
+Development work was done on the `development` branch in several meaningful commits covering project structure, domain logic, JSON repository, application services, authentication, CLI integration, tests, and documentation. A Pull Request from `development` to `main` was raised on GitHub and merged; the final code is on `main`. The complete branch and commit history can be shown with:
 
 ```powershell
-git branch development
-git checkout development
-# implement and commit changes
-git checkout main
-git merge development
-git push -u origin main
-git push -u origin development
+git log --oneline --graph --all
 ```
 
 ## GitHub Pull Request
@@ -173,3 +174,21 @@ This is an educational CLI application with local JSON storage. It is not intend
 - `git branch -a`
 - `git status`
 - GitHub Pull Request and merge confirmation
+
+## Extra Features (beyond the assignment)
+
+1. Login with `ADMIN` and `EMPLOYEE` roles.
+2. Only an admin can resolve a request.
+3. Passwords are stored as salted PBKDF2-SHA256 hashes in `data/users.json`.
+4. An abstract repository class (`AbstractRepository`) is implemented by the JSON `FileRepository` class.
+5. `MainApplication` inherits `RequestService`.
+6. Menu option 6, `View My Previous Requests`, shows only the logged-in user's requests using the `created_by` field.
+7. Automated unit tests are provided in `tests/`.
+8. Missing, empty, and corrupted JSON files are handled safely.
+
+### Default Login Accounts
+
+| Username | Password | Role |
+|---|---|---|
+| `admin` | `Admin@123` | ADMIN |
+| `employee` | `Employee@123` | EMPLOYEE |

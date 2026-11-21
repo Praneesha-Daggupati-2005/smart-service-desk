@@ -30,6 +30,10 @@ class TestFileRepository(unittest.TestCase):
         self.path.write_text("", encoding="utf-8")
         self.assertEqual(self.repository.get_all(), [])
 
+    def test_bom_with_empty_json_list(self):
+        self.path.write_bytes(b"\xef\xbb\xbf[]")
+        self.assertEqual(self.repository.get_all(), [])
+
     def test_corrupted_json_handling(self):
         self.path.write_text("{bad json", encoding="utf-8")
         with self.assertRaises(RepositoryError):

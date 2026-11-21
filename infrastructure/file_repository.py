@@ -19,7 +19,7 @@ class FileRepository(AbstractRepository):
         try:
             if self.file_path.stat().st_size == 0:
                 return []
-            with self.file_path.open("r", encoding="utf-8") as file:
+            with self.file_path.open("r", encoding="utf-8-sig") as file:
                 data = json.load(file)
         except json.JSONDecodeError as exc:
             raise RepositoryError("The repository JSON file is corrupted.") from exc
