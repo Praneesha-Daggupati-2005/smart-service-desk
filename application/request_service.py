@@ -46,10 +46,7 @@ class RequestService:
         if request is None:
             raise RequestNotFoundError("Request not found.")
 
-        try:
-            request.resolve()
-        except AlreadyResolvedError:
-            raise
+        request.resolve()
         self.repository.update(request)
         return request
 
