@@ -1,0 +1,16 @@
+[
+  {
+    "username": "admin",
+    "role": "ADMIN",
+    "algorithm": "pbkdf2_sha256",
+    "salt": "6af40f7addeb2ad51126ef73a36b8579",
+    "password_hash": "b4a0729da020a80190ab7c86a30394a0bb522dec1589409b222fdd91a9e84ef5"
+  },
+  {
+    "username": "employee",
+    "role": "EMPLOYEE",
+    "algorithm": "pbkdf2_sha256",
+    "salt": "2db47f48606500c54022d0b65e298c92",
+    "password_hash": "aacdd62785e2bc5c72db26446db4599b1dc751d0066c63da5505dabd818105cd"
+  }
+]
